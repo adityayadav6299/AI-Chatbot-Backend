@@ -1,50 +1,86 @@
 # Inventory & Order Management System
 
-A production-ready full-stack application for managing products, customers, and orders with inventory tracking.
+A production-ready full-stack application for managing products, customers, and orders with real-time inventory tracking. Built with FastAPI, React, PostgreSQL, and Docker.
 
-## Features
+## 🚀 Features
 
-- **Product Management**: Create, read, update, and delete products with SKU tracking and inventory management
-- **Customer Management**: Manage customer information with email validation
-- **Order Management**: Create orders with automatic inventory deduction and order total calculation
-- **Dashboard**: View key metrics including total products, customers, orders, and low-stock alerts
-- **Real-time Inventory Tracking**: Automatic stock updates when orders are placed
-- **Responsive Design**: Mobile-friendly React frontend
-- **API Error Handling**: Comprehensive validation and error responses
+### Product Management
+- ✅ Create, read, update, and delete products
+- ✅ Unique SKU tracking
+- ✅ Real-time inventory management
+- ✅ Automatic stock updates on order placement
 
-## Technology Stack
+### Customer Management
+- ✅ Customer profile management
+- ✅ Email validation and uniqueness
+- ✅ Contact information tracking
+
+### Order Management
+- ✅ Create orders with multiple items
+- ✅ Automatic inventory deduction
+- ✅ Automatic order total calculation
+- ✅ Order cancellation with inventory restoration
+
+### Dashboard
+- ✅ Key metrics (products, customers, orders, revenue)
+- ✅ Low stock alerts
+- ✅ Recent orders overview
+- ✅ Real-time data updates
+
+## 📋 Tech Stack
 
 ### Backend
-- **Python 3.11**
+- **Python 3.11** - Programming language
 - **FastAPI** - Modern async web framework
-- **SQLAlchemy** - ORM for database operations
+- **SQLAlchemy** - ORM for database
 - **Pydantic** - Data validation
 - **PostgreSQL** - Relational database
 
 ### Frontend
 - **React 18** - UI library
+- **React Router v6** - Navigation
 - **Axios** - HTTP client
-- **React Router** - Navigation
-- **Tailwind CSS** - Styling
+- **CSS3** - Styling
 
-### Deployment & DevOps
+### DevOps
 - **Docker** - Containerization
 - **Docker Compose** - Multi-container orchestration
-- **Render/Railway/Fly.io** - Backend hosting
-- **Vercel/Netlify** - Frontend hosting
 
-## Quick Start
+## 🏗️ Architecture
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│                     Frontend (React)                         │
+│              http://localhost:3000                           │
+└─────────────────────────┬───────────────────────────────────┘
+                          │
+                    HTTP/REST
+                          │
+┌─────────────────────────▼───────────────────────────────────┐
+│                 Backend (FastAPI)                            │
+│           http://localhost:8000                              │
+└─────────────────────────┬───────────────────────────────────┘
+                          │
+                      SQLAlchemy
+                          │
+┌─────────────────────────▼───────────────────────────────────┐
+│            PostgreSQL Database                               │
+│    localhost:5432                                            │
+└─────────────────────────────────────────────────────────────┘
+```
+
+## 🚀 Quick Start
 
 ### Prerequisites
-- Docker and Docker Compose
+- Docker and Docker Compose installed
 - Git
 
-### Local Development
+### Local Development with Docker
 
 ```bash
-# Clone repository
-git clone https://github.com/adityayadav6299/Inventory-Order-Management-System.git
-cd Inventory-Order-Management-System
+# Clone the repository
+git clone https://github.com/adityayadav6299/AI-Chatbot-Backend.git
+cd AI-Chatbot-Backend
 
 # Create environment file
 cp .env.example .env
@@ -52,37 +88,103 @@ cp .env.example .env
 # Start all services
 docker-compose up -d
 
-# Access
+# Access the application
 # Frontend: http://localhost:3000
 # Backend API: http://localhost:8000
-# API Docs: http://localhost:8000/docs
+# API Documentation: http://localhost:8000/docs
 ```
 
-## API Endpoints
+## 📚 API Documentation
 
-### Products
-- `POST /products` - Create product
-- `GET /products` - Get all products
-- `GET /products/{id}` - Get product by ID
-- `PUT /products/{id}` - Update product
-- `DELETE /products/{id}` - Delete product
+### Base URL
+- **Local**: `http://localhost:8000`
 
-### Customers
-- `POST /customers` - Create customer
-- `GET /customers` - Get all customers
-- `GET /customers/{id}` - Get customer by ID
-- `DELETE /customers/{id}` - Delete customer
+### Endpoints
 
-### Orders
-- `POST /orders` - Create order
-- `GET /orders` - Get all orders
-- `GET /orders/{id}` - Get order by ID
-- `DELETE /orders/{id}` - Cancel order
+#### Products
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| GET | `/products` | Get all products |
+| GET | `/products/{id}` | Get product by ID |
+| POST | `/products` | Create new product |
+| PUT | `/products/{id}` | Update product |
+| DELETE | `/products/{id}` | Delete product |
 
-### Dashboard
-- `GET /dashboard` - Get metrics
+#### Customers
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| GET | `/customers` | Get all customers |
+| GET | `/customers/{id}` | Get customer by ID |
+| POST | `/customers` | Create new customer |
+| PUT | `/customers/{id}` | Update customer |
+| DELETE | `/customers/{id}` | Delete customer |
 
-## Project Structure
+#### Orders
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| GET | `/orders` | Get all orders |
+| GET | `/orders/{id}` | Get order by ID |
+| POST | `/orders` | Create new order |
+| DELETE | `/orders/{id}` | Cancel order |
+
+#### Dashboard
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| GET | `/dashboard` | Get dashboard metrics |
+
+## 🔐 Business Logic
+
+### Inventory Management
+- **Stock Validation**: Cannot create products with negative stock
+- **Order Validation**: Orders cannot be placed if inventory is insufficient
+- **Auto-Deduction**: Stock automatically reduces when orders are created
+- **Restoration**: Stock is restored when orders are cancelled
+
+### Data Integrity
+- **SKU Uniqueness**: Product SKU must be unique
+- **Email Uniqueness**: Customer email must be unique
+- **Automatic Calculation**: Order total calculated automatically
+- **Cascading Deletes**: Related data cleaned up on deletion
+
+## 📦 Environment Variables
+
+Create a `.env` file:
+
+```env
+# Database Configuration
+DATABASE_URL=postgresql://postgres:postgres@db:5432/inventory_db
+POSTGRES_USER=postgres
+POSTGRES_PASSWORD=postgres
+POSTGRES_DB=inventory_db
+
+# Backend Configuration
+BACKEND_URL=http://backend:8000
+API_PORT=8000
+DEBUG=False
+
+# Frontend Configuration
+REACT_APP_API_URL=http://localhost:8000
+REACT_APP_API_TIMEOUT=30000
+```
+
+## 🐳 Docker Commands
+
+```bash
+# Start services
+docker-compose up -d
+
+# Stop services
+docker-compose down
+
+# View logs
+docker-compose logs -f backend
+docker-compose logs -f frontend
+
+# Rebuild images
+docker-compose build --no-cache
+```
+
+## 📊 Project Structure
 
 ```
 .
@@ -93,25 +195,68 @@ docker-compose up -d
 │   │   ├── schemas.py
 │   │   ├── database.py
 │   │   └── routes/
+│   │       ├── products.py
+│   │       ├── customers.py
+│   │       ├── orders.py
+│   │       └── dashboard.py
+│   ├── requirements.txt
 │   ├── Dockerfile
-│   └── requirements.txt
+│   └── .dockerignore
 ├── frontend/
 │   ├── src/
 │   │   ├── components/
+│   │   │   ├── Dashboard.jsx
+│   │   │   ├── Products.jsx
+│   │   │   ├── Customers.jsx
+│   │   │   └── Orders.jsx
 │   │   ├── services/
-│   │   └── App.jsx
+│   │   │   └── api.js
+│   │   ├── App.jsx
+│   │   ├── index.js
+│   │   └── index.css
+│   ├── public/
+│   │   └── index.html
+│   ├── package.json
 │   ├── Dockerfile
-│   └── package.json
+│   └── .dockerignore
 ├── docker-compose.yml
-└── .env.example
+├── .env.example
+├── .gitignore
+└── README.md
 ```
 
-## Deployment
+## 🚀 Deployment
 
-See deployment guides in the repository for:
-- Backend deployment on Render/Railway/Fly.io
-- Frontend deployment on Vercel/Netlify
+### Backend (Render/Railway/Fly.io)
+1. Push code to GitHub
+2. Connect to hosting platform
+3. Set environment variables
+4. Deploy
 
-## License
+### Frontend (Vercel/Netlify)
+1. Push code to GitHub
+2. Connect to Vercel/Netlify
+3. Set `REACT_APP_API_URL` environment variable
+4. Deploy
+
+## 📝 License
 
 MIT License
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create a feature branch
+3. Commit your changes
+4. Push to the branch
+5. Open a Pull Request
+
+## 💬 Support
+
+For issues and questions:
+- Open an issue on GitHub
+- Review API documentation at `/docs`
+
+---
+
+**Made with ❤️ by Aditya Yadav**
